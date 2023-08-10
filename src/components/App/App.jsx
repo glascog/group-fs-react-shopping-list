@@ -5,7 +5,7 @@ import './App.css';
 import axios from 'axios';
 
 function App() {
-    
+
     const [shoppingList, setShoppingList] = useState ([]);
     const [newItemName, setNewItemName] = useState ('');
     const [newItemQuantity, setNewItemQuantity] = useState ('');
@@ -16,7 +16,7 @@ function App() {
       }, [])
 
     const getItems = () => {
-        axios.get('/Item')
+        axios.get('/item')
           .then(response => {
             setShoppingList(response.data)
           })
@@ -26,7 +26,7 @@ function App() {
           })
       }
       const addItem = () => {
-        axios.post('/Item', { name: newItemName, quantity: newItemQuantity, unit: newItemUnit })
+        axios.post('/item', { name: newItemName, quantity: newItemQuantity, unit: newItemUnit })
           .then(response => {
             // clear inputs
             setNewItemName('');
