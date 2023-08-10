@@ -2,15 +2,54 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Header from '../Header/Header.jsx'
 import './App.css';
-
+import axios from 'axios';
 
 function App() {
-    const [shoppingList, setShoppingList] = useState ([]);
-
     
-    function handleSubmit() {
+    const [shoppingList, setShoppingList] = useState ([]);
+    const [newItemName, setNewItemName] = useState ('');
+    const [newItemQuantity, setNewItemQuantity] = useState ('');
+    const [newItemUnit, setNewItemUnit] = useState ('');
 
+    useEffect(() => {
+        getItems()
+      }, [])
+
+    const getItems = () => {
+        axios.get('/Item')
+          .then(response => {
+            setShoppingList(response.data)
+          })
+          .catch(err => {
+            alert('error getting Item');
+            console.log(err);
+          })
+      }
+      const addItem = () => {
+        axios.post('/Item', { name: newItemName, quantity: newItemQuantity, unit: newItemUnit })
+          .then(response => {
+            // clear inputs
+            setNewItemName('');
+            setNewItemQuantity('');
+            setNewItemUnit('');
+    
+            getItems();
+          })
+          .catch(err => {
+            alert('Error Adding Item');
+            console.log(err);
+          })
+      };
+
+    const handleSubmit = (event) => {
+    event.preventDefault();
+    if (newItemName) {
+      addItem();
     }
+    else {
+      alert('The new Item needs a name!');
+    }
+  }
     
     return (
         <div className="App">
