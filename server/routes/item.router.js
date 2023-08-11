@@ -18,8 +18,8 @@ router.post('/', (req,res) => {
     console.log('Inside the POST')
     const itemList = req.body;
     const sqlText = `INSERT INTO items ("name", "quantity", "unit")
-    VALUES ($1,$2,$3)`;
-    const queryParams = [itemList.name,itemList.quantity,itemList.unit]
+    VALUES ($1, $2, $3)`;
+    const queryParams = [itemList.name, itemList.quantity, itemList.unit]
     pool.query(sqlText,queryParams)
     .then((result) => {
         console.log('inside the POST',itemList)
