@@ -10,19 +10,20 @@ import AddItem from '../AddItem/AddItem.jsx';
 function App() {
 
     const [shoppingList, setShoppingList] = useState ([]);
-    const [newItemName, setNewItemName] = useState ('');
     
     useEffect(() => {
         getItems()
       }, [])
 
     const getItems = () => {
+      console.log('insde the get')
         axios.get('/item')
           .then(response => {
+            console.log('the reponse for the GET', response.data)
             setShoppingList(response.data)
           })
           .catch(err => {
-            alert('error getting Item');
+            console.log('error getting Item');
             console.log(err);
           })
       }
@@ -33,8 +34,8 @@ function App() {
         <div className="App">
             <Header />
             <main>
-              {AddItem(SaveButton)}
-                {ShoppingList(shoppingList)}
+              <AddItem getItems={(getItems)}/>
+              <ShoppingList shoppingList={shoppingList}/>
 
             </main>
         </div>

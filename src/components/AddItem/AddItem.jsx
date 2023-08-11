@@ -7,18 +7,9 @@ export default function AddItem({getItems}) {
     const [newItemUnit, setNewItemUnit] = useState ('');
     const [newItemName, setNewItemName] = useState ('');
 
-  function SaveButton(newItemName, addItem) {
-    return (event) => {
-      event.preventDefault();
-      if (newItemName) {
-        addItem();
-      }
-      else {
-        alert('The new Item needs a name!');
-      }
-    };
-  }
+
   const addItem = () => {
+    console.log('inside the POST')
     axios.post('/item', { name: newItemName, quantity: newItemQuantity, unit: newItemUnit })
       .then(response => {
         // clear inputs
@@ -33,13 +24,36 @@ export default function AddItem({getItems}) {
         console.log(err);
       })
   };
+  
+  const SaveButton = (event) => {
+      event.preventDefault();
+      if (newItemName) {
+        addItem();
+      }
+      else {
+        console.log('The new Item needs a name!');
+      }
+    
+  }
 
   return <div>
     <h1>Add Item</h1>
     <form onSubmit={SaveButton}>
-      <input type="text" placeholder='Item' />
-      <input type="text" placeholder='Quantity' />
-      <input type="text" placeholder='Unit' />
+      <input 
+      type="text" 
+      placeholder='Item' 
+      value={newItemName}
+      onChange={(evt) => setNewItemName(evt.target.value)}
+      />
+      <input type="text" 
+      placeholder='Quantity' 
+      value={newItemQuantity}
+      onChange={(evt) => setNewItemQuantity(evt.target.value)}/>
+      <input type="text" 
+      placeholder='Unit' 
+      value={newItemUnit}
+      onChange={(evt) => setNewItemUnit(evt.target.value)}
+      />
       <button type='submit'>Save</button>
     </form>
   </div>;
